@@ -1,0 +1,37 @@
+{
+  "name": "weekly_report",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "dependencies": {
+    "bcryptjs": "*",
+    "body-parser": "*",
+    "cors": "*",
+    "date-and-time": "*",
+    "dotenv": "*",
+    "express": "*",
+    "express-session": "*",
+    "express-validator": "*",
+    "jsonwebtoken": "*",
+    "mysql": "*",
+    "nodemon": "*",
+    "passport": "*",
+    "passport-jwt": "*",
+    "cookie-session": "*",
+    "cookie-parser": "*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dipono/weekly_report.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Dipono/weekly_report/issues"
+  },
+  "homepage": "https://github.com/Dipono/weekly_report#readme"
+}
