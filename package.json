@@ -9,8 +9,10 @@
   },
   "dependencies": {
     "bcryptjs": "*",
-    "body-parser": "*",
-    "cors": "*",
+    "body-parser": "^1.19.0",
+    "cookie-parser": "*",
+    "cookie-session": "*",
+    "cors": "^2.8.5",
     "date-and-time": "*",
     "dotenv": "*",
     "express": "*",
@@ -21,8 +23,7 @@
     "nodemon": "*",
     "passport": "*",
     "passport-jwt": "*",
-    "cookie-session": "*",
-    "cookie-parser": "*"
+    "pdfmake": "^0.1.70"
   },
   "repository": {
     "type": "git",
