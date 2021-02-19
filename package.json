@@ -9,21 +9,21 @@
   },
   "dependencies": {
     "bcryptjs": "*",
-    "body-parser": "^1.19.0",
+    "body-parser": "*",
     "cookie-parser": "*",
     "cookie-session": "*",
-    "cors": "^2.8.5",
+    "cors": "*",
     "date-and-time": "*",
     "dotenv": "*",
     "express": "*",
     "express-session": "*",
     "express-validator": "*",
+    "http": "0.0.1-security",
     "jsonwebtoken": "*",
     "mysql": "*",
     "nodemon": "*",
     "passport": "*",
-    "passport-jwt": "*",
-    "pdfmake": "^0.1.70"
+    "passport-jwt": "*"
   },
   "repository": {
     "type": "git",

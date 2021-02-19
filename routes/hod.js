@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const connection = require('../config/config')
-//const https = require('https');
+
 //const fs = require('fs');
 const app = require('express')();
 const bodyParser = require('body-parser');
-//const cors = require('cors');
+const cors = require('cors');
 
 //const url = "C:/Users/ICEP-INTERN/Desktop/Anele/Weekly-Reports-back/Database/lectureReport.pdf";
 
@@ -17,9 +17,9 @@ const bodyParser = require('body-parser');
     });
 });*/
 
-router.get('/hodreport', function (req, res, next) {
+router.get('/hodReport', function (req, res, next) {
 
-    const params = req.body
+    const params = req.body;
 
     connection.query(`SELECT DISTINCT r.reportNum, r.activities, r.assess, r.challRecomm, r.date as start_date, date(r.date + 5) as end_date, s.subjCode, d.deptName 
                         FROM reports r, lecture_subject ls, subject s, lecture l, department d, hod h 
@@ -48,7 +48,67 @@ router.get('/hodreport', function (req, res, next) {
     });
 }); 
 
+router.get('/lecturerID', function(req, res, next) {
 
+    const params = req.body;
 
-//console.log('So far so good!')
+    connection.query(`SELECT DISTINCT r.reportNum, r.activities, r.assess, r.challRecomm, r.date as start_date, date(r.date + 5) as end_date, s.subjCode, d.deptName 
+                        FROM reports r, lecture_subject ls, subject s, lecture l, department d, hod h 
+                        WHERE r.lecSubId = ls.lecSubId 
+                        AND ls.subjCode = s.subjCode 
+                        AND ls.lecNum = l.lecNum 
+                        AND d.depCode = h.depCode 
+                        AND week(date) = week(CURRENT_DATE) 
+                        AND ls.lecNum = ?`, [params.lecNum], function (error, results) {
+
+        if (error) 
+        {
+            console.log(error)
+        }
+        if (results.length > 0) 
+        {
+            console.log(results);
+            res.send(results)
+        }
+        else
+        {
+            console.log('Nothing was selected.')
+            console.log(params.depCode)
+        }
+    
+    });
+});
+
+router.get('/subjectCode', function(req, res, next) {
+
+    const params = req.body;
+
+    connection.query(`SELECT DISTINCT r.reportNum, r.activities, r.assess, r.challRecomm, r.date as start_date, date(r.date + 5) as end_date, s.subjCode, d.deptName 
+                        FROM reports r, lecture_subject ls, subject s, lecture l, department d, hod h 
+                        WHERE r.lecSubId = ls.lecSubId 
+                        AND ls.subjCode = s.subjCode 
+                        AND ls.lecNum = l.lecNum 
+                        AND s.depCode = d.depCode
+                        AND h.depCode = d.depCode 
+                        AND week(date) = week(CURRENT_DATE) 
+                        AND ls.subjCode = ?`, [params.subjCode], function (error, results) {
+
+        if (error) 
+        {
+            console.log(error)
+        }
+        if (results.length > 0) 
+        {
+            console.log(results);
+            res.send(results)
+        }
+        else
+        {
+            console.log('Nothing was selected.')
+            console.log(params.depCode)
+        }
+    
+    });
+});
+console.log('So far so good!')
 module.exports = router

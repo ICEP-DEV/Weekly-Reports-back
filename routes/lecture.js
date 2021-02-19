@@ -3,6 +3,42 @@ const router = express.Router();
 const connection = require('../config/config')
 
 
+router.get('/getModules', function (req, res, next) {
+    const params = req.body;
+
+    connection.query(`select deptName, s.subjCode, subjName
+                        from lecture l, department d, subject s, lecture_subject ls
+                        where l.lecNum = ls.lecNum
+                        and ls.subjCode = s.subjCode
+                        and s.depCode = d.depCode
+                        and l.lecNum =?`, params.lecNum, function (error, results) {
+        if (error) throw error
+
+        if (results.length > 0) {
+            console.log(results)
+            res.send(results)
+        }
+    })
+})
+
+router.get('/selectedModule', function (req, res, next) {
+    const params = req.body;
+
+    connection.query(`select lecName, lecSurname, deptName, s.subjCode, subjName
+                        from lecture l, department d, subject s, lecture_subject ls
+                        where l.lecNum = ls.lecNum
+                        and ls.subjCode = s.subjCode
+                        and s.depCode = d.depCode
+                        and ls.lecSubId =?`, params.lecSubId, function (error, results) {
+        if (error) throw error
+
+        if (results.length > 0) {
+            console.log(results)
+            res.send(results)
+        }
+    })
+})
+
 router.post('/report', function (req, res, next) {
 
     const params = req.body;
