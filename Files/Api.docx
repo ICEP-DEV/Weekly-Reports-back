@@ -1,0 +1,5 @@
+http://localhost:4041/lecture/selectedModule
+get selected modules
+
+http://localhost:4041/lecture/report
+create and update report

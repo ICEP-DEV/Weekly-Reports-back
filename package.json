@@ -10,19 +10,20 @@
   "dependencies": {
     "bcryptjs": "*",
     "body-parser": "*",
+    "cookie-parser": "*",
+    "cookie-session": "*",
     "cors": "*",
     "date-and-time": "*",
     "dotenv": "*",
     "express": "*",
     "express-session": "*",
     "express-validator": "*",
+    "http": "0.0.1-security",
     "jsonwebtoken": "*",
     "mysql": "*",
     "nodemon": "*",
     "passport": "*",
-    "passport-jwt": "*",
-    "cookie-session": "*",
-    "cookie-parser": "*"
+    "passport-jwt": "*"
   },
   "repository": {
     "type": "git",
