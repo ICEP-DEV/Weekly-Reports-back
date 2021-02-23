@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.4
+-- version 5.0.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 16, 2021 at 01:40 PM
--- Server version: 10.1.37-MariaDB
--- PHP Version: 7.1.26
+-- Generation Time: Feb 23, 2021 at 10:45 AM
+-- Server version: 10.4.11-MariaDB
+-- PHP Version: 7.2.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -55,6 +55,16 @@ CREATE TABLE `hod` (
   `depCode` varchar(20) DEFAULT NULL,
   `password` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `hod`
+--
+
+INSERT INTO `hod` (`headNum`, `headName`, `headSurname`, `email`, `depCode`, `password`) VALUES
+(1, 'Sibusiso', 'Mahlangu', 'mahlangu@gmail.com', 'NDIT12', 'mahlangus'),
+(2, 'Sandile', 'Masilela', 'masilela', 'NDIT12', 'masilela'),
+(1, 'Sibusiso', 'Mahlangu', 'mahlangu@gmail.com', 'NDIT12', 'mahlangus'),
+(2, 'Sandile', 'Masilela', 'masilela', 'NDIT12', 'masilela');
 
 -- --------------------------------------------------------
 

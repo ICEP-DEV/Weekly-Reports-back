@@ -27,7 +27,7 @@ router.get('/hodReport', function (req, res, next) {
                         AND ls.subjCode = s.subjCode 
                         AND ls.lecNum = l.lecNum 
                         AND d.depCode = h.depCode 
-                        AND week(date) = week(CURRENT_DATE) 
+                        
                         AND d.depCode = ?`, [params.depCode], function (error, results) {
 
         if (error) 
@@ -39,6 +39,7 @@ router.get('/hodReport', function (req, res, next) {
             console.log(results);
             res.send(results)
         }
+
         else
         {
             console.log('Nothing was selected.')
@@ -58,7 +59,7 @@ router.get('/lecturerID', function(req, res, next) {
                         AND ls.subjCode = s.subjCode 
                         AND ls.lecNum = l.lecNum 
                         AND d.depCode = h.depCode 
-                        AND week(date) = week(CURRENT_DATE) 
+                 
                         AND ls.lecNum = ?`, [params.lecNum], function (error, results) {
 
         if (error) 
@@ -73,7 +74,7 @@ router.get('/lecturerID', function(req, res, next) {
         else
         {
             console.log('Nothing was selected.')
-            console.log(params.depCode)
+            console.log(params.lecNum)
         }
     
     });
@@ -89,8 +90,9 @@ router.get('/subjectCode', function(req, res, next) {
                         AND ls.subjCode = s.subjCode 
                         AND ls.lecNum = l.lecNum 
                         AND s.depCode = d.depCode
+                        
                         AND h.depCode = d.depCode 
-                        AND week(date) = week(CURRENT_DATE) 
+                 
                         AND ls.subjCode = ?`, [params.subjCode], function (error, results) {
 
         if (error) 
@@ -105,7 +107,7 @@ router.get('/subjectCode', function(req, res, next) {
         else
         {
             console.log('Nothing was selected.')
-            console.log(params.depCode)
+            console.log(params.subjCode)
         }
     
     });
