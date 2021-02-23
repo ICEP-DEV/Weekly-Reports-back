@@ -10,8 +10,7 @@ router.get('/getModules', function (req, res, next) {
                         from lecture l, department d, subject s, lecture_subject ls
                         where l.lecNum = ls.lecNum
                         and ls.subjCode = s.subjCode
-                        and s.depCode = d.depCode
-                        and l.lecNum =?`, params.lecNum, function (error, results) {
+                        and s.depCode = d.depCode`, function (error, results) {
         if (error) throw error
 
         if (results.length > 0) {
@@ -21,15 +20,15 @@ router.get('/getModules', function (req, res, next) {
     })
 })
 
-router.get('/selectedModule', function (req, res, next) {
+router.get('/getModules/:id', function (req, res, next) {
     const params = req.body;
 
-    connection.query(`select lecName, lecSurname, deptName, s.subjCode, subjName
+    connection.query(`select upper(lecName) as lecName, upper(lecSurname) as lecSurname, upper(deptName) as deptName, upper(s.subjCode) as subjCode, upper(subjName) as subjName
                         from lecture l, department d, subject s, lecture_subject ls
                         where l.lecNum = ls.lecNum
                         and ls.subjCode = s.subjCode
                         and s.depCode = d.depCode
-                        and ls.lecSubId =?`, params.lecSubId, function (error, results) {
+                        and ls.lecSubId =?`, req.params.id, function (error, results) {
         if (error) throw error
 
         if (results.length > 0) {
@@ -132,22 +131,7 @@ router.post('/report', function (req, res, next) {
             assess = (assess +'\n'+ params.assess).trim()
             challRecomm = (challRecomm +'\n'+ params.challRecomm).trim()
 
-            
-            /*const repNo = results[0].reportNum
-            const NoStud = results[0].numStudents
-            const topics = results[0].topicsCovered +'\n'+ params.topicsCovered.trim()
-            const teachMode = results[0].teachMode
-            const presentMode = results[0].presentMode +'\n'+ params.presentMode.trim()
-            const resource = results[0].resource +'\n'+ params.resource.trim()
-            const activities = results[0].activities +'\n'+ params.activities.trim()
-            const assess = results[0].assess +'\n'+ params.assess.trim()
-            const challRecomm = results[0].challRecomm +'\n'+ params.challRecomm.trim()*/
-
-
-
-
-            //console.log(topics,'*******\n',teachMode,'**********\n',presentMode,'*********\n',resource,'***********\n',activities,'***********\n',assess,'***********\n',challRecomm);
-            //res.send(challRecomm)
+    
             connection.query(`update reports
                                 set topicsCovered =?,
                                 teachMode =?,
@@ -163,7 +147,6 @@ router.post('/report', function (req, res, next) {
 
                                     res.send(rows)
                                 })
-            //console.log(results);
 
         }
         else {
