@@ -88,7 +88,7 @@ router.get('/subjectCode', function(req, res, next) {
                         AND ls.subjCode = s.subjCode 
                         AND ls.lecNum = l.lecNum 
                         AND s.depCode = d.depCode
-                        
+                        AND week(date) = week(CURRENT)
                         AND h.depCode = d.depCode 
                  
                         AND ls.subjCode = ?`, [params.subjCode], function (error, results) {
