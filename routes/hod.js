@@ -8,16 +8,35 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 
 
+
+//const url = "C:/Users/ICEP-INTERN/Desktop/Anele/Weekly-Reports-back/Database/lectureReport.pdf";
+
+/*https.get(url, function(res){
+    const fileStream = fs.createWriteStream("C:/Users/ICEP-INTERN/Desktop/Anele/Weekly-Reports-back/Database/LecturerReport.pdf");
+    res.pipe(fileStream);
+    fileStream.on("finish", function(){
+        fileStream.close();
+    });
+});*/
+
+
 router.get('/hodReport', function (req, res, next) {
 
     const params = req.body;
 
+
     connection.query(`SELECT DISTINCT r.reportNum, r.activities, r.assess, r.challRecomm, r.date as start_date, date(r.date + 5) as end_date, Upper(s.subjCode) as subjCode, d.deptName 
-                        FROM reports r, lecture_subject ls, subject s, lecture l, department d, hod h 
+
+    connection.query(`SELECT DISTINCT r.reportNum, r.activities, r.assess, r.challRecomm, r.date as start_date, date(r.date + 5) as end_date, s.subjCode, d.deptName 
+     FROM reports r, lecture_subject ls, subject s, lecture l, department d, hod h 
                         WHERE r.lecSubId = ls.lecSubId 
                         AND ls.subjCode = s.subjCode 
                         AND ls.lecNum = l.lecNum 
+
                         AND d.depCode = h.depCode`, function (error, results) {
+
+                        AND d.depCode = h.depCode `, function (error, results) {
+
 
         if (error) 
         {
@@ -31,7 +50,11 @@ router.get('/hodReport', function (req, res, next) {
 
         else
         {
+
             console.log('Nothing was selected.',params.depCode)
+
+            console.log('Nothing was selected.')
+
             console.log(params.depCode)
         }
     
@@ -79,7 +102,13 @@ router.get('/subjectCode', function(req, res, next) {
                         AND ls.subjCode = s.subjCode 
                         AND ls.lecNum = l.lecNum 
                         AND s.depCode = d.depCode
+
                         AND h.depCode = d.depCode 
+
+                        AND week(date) = week(CURRENT_WEEK)
+                        AND h.depCode = d.depCode 
+                 
+
                         AND ls.subjCode = ?`, [params.subjCode], function (error, results) {
 
         if (error) 
