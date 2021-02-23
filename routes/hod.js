@@ -26,9 +26,7 @@ router.get('/hodReport', function (req, res, next) {
                         WHERE r.lecSubId = ls.lecSubId 
                         AND ls.subjCode = s.subjCode 
                         AND ls.lecNum = l.lecNum 
-                        AND d.depCode = h.depCode 
-                        
-                        AND d.depCode = ?`, [params.depCode], function (error, results) {
+                        AND d.depCode = h.depCode `, function (error, results) {
 
         if (error) 
         {
