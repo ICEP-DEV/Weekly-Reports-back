@@ -26,7 +26,8 @@ router.get('/hodReport', function (req, res, next) {
                         WHERE r.lecSubId = ls.lecSubId 
                         AND ls.subjCode = s.subjCode 
                         AND ls.lecNum = l.lecNum 
-                        AND d.depCode = h.depCode `, function (error, results) {
+                        AND d.depCode = h.depCode 
+                        AND d.depCode = ?`, [params.depCode], function (error, results) {
 
         if (error) 
         {
@@ -56,8 +57,8 @@ router.get('/lecturerID', function(req, res, next) {
                         WHERE r.lecSubId = ls.lecSubId 
                         AND ls.subjCode = s.subjCode 
                         AND ls.lecNum = l.lecNum 
+                        AND s.depCode = d.depCode
                         AND d.depCode = h.depCode 
-                 
                         AND ls.lecNum = ?`, [params.lecNum], function (error, results) {
 
         if (error) 
@@ -88,9 +89,7 @@ router.get('/subjectCode', function(req, res, next) {
                         AND ls.subjCode = s.subjCode 
                         AND ls.lecNum = l.lecNum 
                         AND s.depCode = d.depCode
-                        AND week(date) = week(CURRENT_WEEK)
                         AND h.depCode = d.depCode 
-                 
                         AND ls.subjCode = ?`, [params.subjCode], function (error, results) {
 
         if (error) 
