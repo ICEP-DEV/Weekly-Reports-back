@@ -21,7 +21,7 @@ app.use(cors());
 app.use('/login',login);
 app.use('/hod',hod);
 app.use('/lecture',lecture);
-app.use('/lectregisterure',register);
+app.use('/register',register);
 
 
 
