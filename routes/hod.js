@@ -26,16 +26,12 @@ router.get('/hodReport', function (req, res, next) {
 
 
     connection.query(`SELECT DISTINCT r.reportNum, r.activities, r.assess, r.challRecomm, r.date as start_date, date(r.date + 5) as end_date, Upper(s.subjCode) as subjCode, d.deptName 
-
-    connection.query(`SELECT DISTINCT r.reportNum, r.activities, r.assess, r.challRecomm, r.date as start_date, date(r.date + 5) as end_date, s.subjCode, d.deptName 
      FROM reports r, lecture_subject ls, subject s, lecture l, department d, hod h 
                         WHERE r.lecSubId = ls.lecSubId 
                         AND ls.subjCode = s.subjCode 
-                        AND ls.lecNum = l.lecNum 
-
-                        AND d.depCode = h.depCode`, function (error, results) {
-
-                        AND d.depCode = h.depCode `, function (error, results) {
+                        AND ls.lecNum = l.lecNum
+                        AND d.depCode = h.depCode 
+                        and week(CURRENT_DATE) = week(date)`, function (error, results) {
 
 
         if (error) 
@@ -46,6 +42,8 @@ router.get('/hodReport', function (req, res, next) {
         {
             console.log(results);
             res.send(results)
+            console.log('success')
+
         }
 
         else
