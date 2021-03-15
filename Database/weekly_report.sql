@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.1
+-- version 4.8.4
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 23, 2021 at 10:45 AM
--- Server version: 10.4.11-MariaDB
--- PHP Version: 7.2.28
+-- Generation Time: Mar 08, 2021 at 03:29 AM
+-- Server version: 10.1.37-MariaDB
+-- PHP Version: 7.1.26
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -38,6 +38,7 @@ CREATE TABLE `department` (
 --
 
 INSERT INTO `department` (`depCode`, `deptName`) VALUES
+('ndif12', 'Diploma: Informatics'),
 ('NDIT12', 'NATIONAL DIPLOMA: INFORMATION TECHNOLOGY'),
 ('NDITF1', 'NATIONAL DIPLOMA: INFORMATION TECHNOLOGY (Extended curriculum programme with foundation provision)');
 
@@ -53,18 +54,16 @@ CREATE TABLE `hod` (
   `headSurname` varchar(100) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
   `depCode` varchar(20) DEFAULT NULL,
-  `password` varchar(100) DEFAULT NULL
+  `password` varchar(100) DEFAULT NULL,
+  `title` varchar(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `hod`
 --
 
-INSERT INTO `hod` (`headNum`, `headName`, `headSurname`, `email`, `depCode`, `password`) VALUES
-(1, 'Sibusiso', 'Mahlangu', 'mahlangu@gmail.com', 'NDIT12', 'mahlangus'),
-(2, 'Sandile', 'Masilela', 'masilela', 'NDIT12', 'masilela'),
-(1, 'Sibusiso', 'Mahlangu', 'mahlangu@gmail.com', 'NDIT12', 'mahlangus'),
-(2, 'Sandile', 'Masilela', 'masilela', 'NDIT12', 'masilela');
+INSERT INTO `hod` (`headNum`, `headName`, `headSurname`, `email`, `depCode`, `password`, `title`) VALUES
+(14789, 'John', 'Kekana', 'kekana@gmail.com', 'NDIT12', '1234', 'Dr');
 
 -- --------------------------------------------------------
 
@@ -77,16 +76,18 @@ CREATE TABLE `lecture` (
   `lecName` varchar(100) NOT NULL,
   `lecSurname` varchar(100) NOT NULL,
   `email` varchar(100) NOT NULL,
-  `password` varchar(100) NOT NULL
+  `password` varchar(100) NOT NULL,
+  `title` varchar(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `lecture`
 --
 
-INSERT INTO `lecture` (`lecNum`, `lecName`, `lecSurname`, `email`, `password`) VALUES
-(123456, 'James', 'Makena', 'makena@gmail.com', '1234'),
-(147896, 'Lebo', 'Kgaphola', 'kgaphola@gmail.com', '1234');
+INSERT INTO `lecture` (`lecNum`, `lecName`, `lecSurname`, `email`, `password`, `title`) VALUES
+(12345, 'Nico', 'Maja', 'maja@gmail.com', '1234', 'Dr'),
+(123456, 'James', 'Makena', 'makena@gmail.com', '1234', 'Dr'),
+(147896, 'Lebo', 'Kgaphola', 'kgaphola@gmail.com', '1234', 'Dr');
 
 -- --------------------------------------------------------
 
@@ -109,7 +110,10 @@ INSERT INTO `lecture_subject` (`lecSubId`, `subjCode`, `lecNum`) VALUES
 (2, 'dso17at', 147896),
 (3, 'dso17at', 123456),
 (4, 'cmk10at', 123456),
-(5, 'dso17bt', 123456);
+(5, 'dso17bt', 123456),
+(6, 'cmk10at', 12345),
+(7, 'dso17at', 12345),
+(8, 'dso17bt', 12345);
 
 -- --------------------------------------------------------
 
@@ -160,6 +164,7 @@ CREATE TABLE `subject` (
 --
 
 INSERT INTO `subject` (`subjCode`, `subjName`, `depCode`) VALUES
+('bcm125d', 'Business Cost Management', 'ndif12'),
 ('cmk10at', 'computing skills IA', 'NDIT12'),
 ('dso17at', 'development software IA', 'NDIT12'),
 ('dso17bt', 'development software IB', 'NDIT12');
@@ -216,7 +221,7 @@ ALTER TABLE `subject`
 -- AUTO_INCREMENT for table `lecture_subject`
 --
 ALTER TABLE `lecture_subject`
-  MODIFY `lecSubId` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `lecSubId` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `reports`
