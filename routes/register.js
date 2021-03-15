@@ -9,6 +9,7 @@ router.get('/department', function (req, res, next) {
 
             if (results.length > 0) {
                 console.log(results)
+                res.send(results)
             }
         })
 })

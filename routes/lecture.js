@@ -22,7 +22,7 @@ router.get('/getModules', function (req, res, next) {
 
 router.get('/getModules/:id', function (req, res, next) {
 
-    connection.query(`select title,lecName,lecSurname, deptName, s.subjCode, subjName
+    connection.query(`select title,lecName,lecSurname, deptName, s.subjCode, subjName,ls.lecSubId
                         from lecture l, department d, subject s, lecture_subject ls
                         where l.lecNum = ls.lecNum
                         and ls.subjCode = s.subjCode
@@ -76,17 +76,17 @@ router.post('/report', function (req, res, next) {
 
         if (results.length > 0) {
             
-            var repNo = results[0].reportNum
-            var NoStud = results[0].numStudents
-            var topics =  results[0].topicsCovered //+'\n'+ params.topicsCovered.trim()
+            var reportNum = results[0].reportNum
+            //var numStudents = results[0].numStudents
+            var topicsCovered =  results[0].topicsCovered
             var teachMode = results[0].teachMode
-            var presentMode = results[0].presentMode //+'\n'+ params.presentMode.trim()
-            var resource = results[0].resource //+'\n'+ params.resource.trim()
-            var activities = results[0].activities //+'\n'+ params.activities.trim()
-            var assess = results[0].assess //+'\n'+ params.assess.trim()
-            var challRecomm = results[0].challRecomm //+'\n'+ params.challRecomm.trim()
-
-           if(topics.includes(params.topicsCovered)){
+            var presentMode = results[0].presentMode
+            var resource = results[0].resource
+            var activities = results[0].activities
+            var assess = results[0].assess
+            var challRecomm = results[0].challRecomm
+/*
+           if(topicsCovered.includes(params.topicsCovered)){
                 console.log('yes it contain ',params.topicsCovered)
                 params.topicsCovered = '';
             }
@@ -123,7 +123,7 @@ router.post('/report', function (req, res, next) {
                 //assess.replace("N/A","")
                 console.log('replace ', replace)
                 assess = replace;
-            }
+            }*/
             //------------------------------------- REMOVE N/A-----------------------
 
             /*if(params.assess != ''){
@@ -144,7 +144,7 @@ router.post('/report', function (req, res, next) {
                 params.challRecomm = '';
             }
             
-            topics = (topics +'\n'+ params.topicsCovered).trim()
+            topicsCovered = (topicsCovered +'\n'+ params.topicsCovered).trim()
             teachMode = (teachMode +'\n'+ params.teachMode).trim()
             presentMode = (presentMode +'\n'+ params.presentMode).trim()
             resource = (resource +'\n'+ params.resource).trim()
@@ -161,7 +161,7 @@ router.post('/report', function (req, res, next) {
                                 activities =?,
                                 assess =?,
                                 challRecomm =?
-                                where reportNum =?`,[topics,teachMode,presentMode,resource,activities,assess,challRecomm,repNo], function(error,rows){
+                                where reportNum =?`,[topicsCovered,teachMode,presentMode,resource,activities,assess,challRecomm,reportNum], function(error,rows){
                                     if(error){throw error}
 
                                     console.log(rows)

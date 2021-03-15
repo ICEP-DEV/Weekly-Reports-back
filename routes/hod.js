@@ -1,23 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const connection = require('../config/config')
-
-//const fs = require('fs');
 const app = require('express')();
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
-
-
-//const url = "C:/Users/ICEP-INTERN/Desktop/Anele/Weekly-Reports-back/Database/lectureReport.pdf";
-
-/*https.get(url, function(res){
-    const fileStream = fs.createWriteStream("C:/Users/ICEP-INTERN/Desktop/Anele/Weekly-Reports-back/Database/LecturerReport.pdf");
-    res.pipe(fileStream);
-    fileStream.on("finish", function(){
-        fileStream.close();
-    });
-});*/
 
 
 router.get('/hodReport', function (req, res, next) {
@@ -31,8 +18,7 @@ router.get('/hodReport', function (req, res, next) {
                         AND ls.subjCode = s.subjCode 
                         AND ls.lecNum = l.lecNum
                         AND d.depCode = h.depCode 
-                        and week(CURRENT_DATE) = week(date)`, function (error, results) {
-
+                        and week(CURRENT_DATE) = week(date)`, function (error, results){
 
         if (error) 
         {
@@ -51,7 +37,7 @@ router.get('/hodReport', function (req, res, next) {
 
             console.log('Nothing was selected.',params.depCode)
 
-            console.log('Nothing was selected.')
+            res.send('Nothing was selected.')
 
             console.log(params.depCode)
         }
@@ -68,9 +54,9 @@ router.get('/lecturerID', function(req, res, next) {
                         WHERE r.lecSubId = ls.lecSubId 
                         AND ls.subjCode = s.subjCode 
                         AND ls.lecNum = l.lecNum 
-                        AND d.depCode = h.depCode 
-                 
-                        AND ls.lecNum = ?`, [params.lecNum], function (error, results) {
+                        AND s.depCode = d.depCode
+                        week(date) = week(CURRENT_DATE)
+                        AND d.depCode = h.depCode`, function (error, results) {
 
         if (error) 
         {
@@ -100,13 +86,9 @@ router.get('/subjectCode', function(req, res, next) {
                         AND ls.subjCode = s.subjCode 
                         AND ls.lecNum = l.lecNum 
                         AND s.depCode = d.depCode
-
                         AND h.depCode = d.depCode 
-
                         AND week(date) = week(CURRENT_WEEK)
                         AND h.depCode = d.depCode 
-                 
-
                         AND ls.subjCode = ?`, [params.subjCode], function (error, results) {
 
         if (error) 
