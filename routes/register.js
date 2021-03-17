@@ -22,6 +22,7 @@ router.get('/deptModules/:dpCode', function (req, res, next) {
 
             if (results.length > 0) {
                 console.log(results)
+                res.send(results)
             }
             else {
                 console.log('this deaprtment does not contain modules')
@@ -72,18 +73,13 @@ router.post('/lecture', function (req, res, next) {
 
             }
             else {
-                console.log(params.lecNum, params.lecName, params.lecSurname, params.email, params.title, params.password)
-                console.log('not yet registered')
-                console.log(params.subjCode)
                 connection.query(`INSERT INTO lecture(lecNum,lecName,lecSurname,email,title,password)
                             VALUES(?,?,?,?,?,?)`, [params.lecNum, params.lecName, params.lecSurname, params.email, params.title, params.password], function (error, rows) {
                         if (error) console.log(error)
 
                         for (var k = 0; k < params.subjCode.length; k++) {
-                            console.log(params.subjCode[k], ' of index ', k, ' of lecture number ', params.lecNum)
                             connection.query(`insert into lecture_subject(subjCode,lecNum)
-                                                VALUES(?,?)`, [params.subjCode[k], params.lecNum], function (err) {
-                                    if (err) console.log(err)
+                                                VALUES(?,?)`, [params.subjCode[k], params.lecNum], function (err) {rs
                                 })
                         }
 
