@@ -3,3 +3,25 @@ get selected modules
 
 http://localhost:4041/lecture/report
 create and update report
+
+HOD
+http://localhost:4041/hod/hodReport
+get a summary report for all modules in a department
+
+http://localhost:4041/hod/lecturerID
+get a summary of all reports by specific lecturer
+
+http://localhost:4041/hod/subjectCode
+get a summary of all reports in a specific module
+
+http://localhost:4041/login/hodLogin
+check for correct related password and HOD ID to allow access
+
+http://localhost:4041/login/lecturerLogin
+check for correct related password and Lecturer ID to allow access
+
+http://localhost:4041/hod/hodDashboard
+get HOD information to populate the HOD dashboard
+
+http://localhost:4041/hod/deptModules
+get all the modules in the department to populate the HOD dashboard

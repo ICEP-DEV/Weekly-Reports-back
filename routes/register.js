@@ -79,7 +79,7 @@ router.post('/lecture', function (req, res, next) {
 
                         for (var k = 0; k < params.subjCode.length; k++) {
                             connection.query(`insert into lecture_subject(subjCode,lecNum)
-                                                VALUES(?,?)`, [params.subjCode[k], params.lecNum], function (err) {rs
+                                                VALUES(?,?)`, [params.subjCode[k], params.lecNum], function (err) {
                                 })
                         }
 

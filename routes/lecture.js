@@ -17,6 +17,9 @@ router.get('/getModules', function (req, res, next) {
             console.log(results)
             res.send(results)
         }
+        else{
+            console.log('cannot')
+        }
     })
 })
 
@@ -195,7 +198,7 @@ router.post('/report', function (req, res, next) {
 
 });
 
-router.get('/getMyReports', function (req, res, next) {
+router.post('/myReports', function (req, res, next) {
     var sql = `select s.subjCode, subjName, reportNum
                 from lecture_subject ls, subject s, lecture l,reports r
                 where l.lecNum = ls.lecNum
