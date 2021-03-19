@@ -62,9 +62,7 @@ router.get('/getModules/:id', function (req, res, next) {
 router.post('/report', function (req, res, next) {
 
     const params = req.body;
-    if(params.assess==''){
-        params.assess="N/A";
-    }
+
     //console.log(params);
     connection.query(`SELECT reportNum, numStudents, date, topicsCovered, teachMode, presentMode, resource, attendAvg, activities, assess, challRecomm, l.lecSubId
                         FROM reports r, lecture_subject l
@@ -171,6 +169,10 @@ router.post('/report', function (req, res, next) {
 
         }
         else {
+            if(params.assess==''){
+                params.assess="N/A";
+            }
+
             const date_ob = new Date();
 
             const date = ("0" + date_ob.getDate()).slice(-2); /// day
@@ -192,6 +194,42 @@ router.post('/report', function (req, res, next) {
     })
 
 });
+
+router.get('/getMyReports', function (req, res, next) {
+    var sql = `select s.subjCode, subjName, reportNum
+                from lecture_subject ls, subject s, lecture l,reports r
+                where l.lecNum = ls.lecNum
+                and ls.subjCode = s.subjCode
+                and ls.lecSubId = r.lecSubId
+                and week(date) = week(CURRENT_DATE)
+                and l.lecNum =?`
+    connection.query(sql, [req.body.lecNum], function (error, results) {
+        if (error) console.log(error)
+
+        if (results) {
+            console.log(results)
+            res.send(results)
+        }
+    })
+})
+
+
+router.get('/reportDetails/:reportId', function (req, res, next) {
+
+    var sql = `select *
+                from reports
+                where reportNum =?`
+    connection.query(sql,[req.params.reportId], function(error,results){
+        if(error) console.log(error)
+
+        if(results){
+            console.log(results)
+            res.send(results)
+            
+        }
+    })
+})
+
 
 
 module.exports = router
