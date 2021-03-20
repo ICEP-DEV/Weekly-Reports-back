@@ -3,14 +3,15 @@ const router = express.Router();
 const connection = require('../config/config')
 
 
-router.get('/getModules', function (req, res, next) {
-    const params = req.body;
+router.get('/getModules/:lecId', function (req, res, next) {
+    //const params = req.body;
 
-    connection.query(`select deptName, s.subjCode, subjName, ls.lecSubId as lecSubId
+    connection.query(`select deptName, s.subjCode, subjName, ls.lecSubId as lecSubId, l.lecNum
                         from lecture l, department d, subject s, lecture_subject ls
                         where l.lecNum = ls.lecNum
                         and ls.subjCode = s.subjCode
-                        and s.depCode = d.depCode`, function (error, results) {
+                        and s.depCode = d.depCode
+                        and l.lecNum =?`,req.params.lecId, function (error, results) {
         if (error) throw error
 
         if (results.length > 0) {
@@ -23,7 +24,7 @@ router.get('/getModules', function (req, res, next) {
     })
 })
 
-router.get('/getModules/:id', function (req, res, next) {
+router.get('/selectedModule/:id', function (req, res, next) {
 
     connection.query(`select title,lecName,lecSurname, deptName, s.subjCode, subjName,ls.lecSubId
                         from lecture l, department d, subject s, lecture_subject ls

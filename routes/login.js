@@ -51,7 +51,7 @@ router.post('/lecturerLogin', function(req, res) {
     var Password = req.body.password;
     var lecturerNum = req.body.email;
 
-    connection.query(`SELECT email, password
+    connection.query(`SELECT email, password,lecNum
                         FROM lecture
                         WHERE email = ?`, lecturerNum, function (error, results) {
 
