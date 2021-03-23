@@ -11,7 +11,7 @@ router.post('/hodLogin', function(req, res) {
     var Password1 = req.body.password;
     var hodNum = req.body.headNum;
 
-    connection.query(`SELECT h.headNum, h.password
+    connection.query(`SELECT h.headNum, h.password, h.depCode
                         FROM hod h, department d
                         WHERE h.depCode = d.depCode 
                         AND h.headNum = ?`, hodNum, function (error, results) {
@@ -49,11 +49,11 @@ router.post('/hodLogin', function(req, res) {
 router.post('/lecturerLogin', function(req, res) {
 
     var Password = req.body.password;
-    var lecturerNum = req.body.email;
+    var lecturerNum = req.body.lecNum;
 
-    connection.query(`SELECT email, password,lecNum
+    connection.query(`SELECT lecNum, password
                         FROM lecture
-                        WHERE email = ?`, lecturerNum, function (error, results) {
+                        WHERE lecNum = ?`, lecturerNum, function (error, results) {
 
         if (error) 
         {
@@ -62,7 +62,7 @@ router.post('/lecturerLogin', function(req, res) {
 
         if (results.length > 0) 
         {
-            if (results[0].email == lecturerNum)
+            if (results[0].lecNum == lecturerNum)
             {
                 if(results[0].password == Password)
                 {

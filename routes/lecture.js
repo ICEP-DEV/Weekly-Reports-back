@@ -3,10 +3,10 @@ const router = express.Router();
 const connection = require('../config/config')
 
 
-router.get('/getModules/:lecId', function (req, res, next) {
+router.get('/lectureDashboard/:lecId', function (req, res, next) {
     //const params = req.body;
 
-    connection.query(`select deptName, s.subjCode, subjName, ls.lecSubId as lecSubId, l.lecNum
+    connection.query(`select deptName, s.subjCode, subjName, ls.lecSubId as lecSubId, l.lecNum, title, lecName, lecSurname, email
                         from lecture l, department d, subject s, lecture_subject ls
                         where l.lecNum = ls.lecNum
                         and ls.subjCode = s.subjCode
@@ -87,7 +87,7 @@ router.post('/report', function (req, res, next) {
             var activities = results[0].activities
             var assess = results[0].assess
             var challRecomm = results[0].challRecomm
-/*
+        /*
            if(topicsCovered.includes(params.topicsCovered)){
                 console.log('yes it contain ',params.topicsCovered)
                 params.topicsCovered = '';
@@ -199,7 +199,7 @@ router.post('/report', function (req, res, next) {
 
 });
 
-router.post('/myReports', function (req, res, next) {
+router.get('/myReports/:lectNum', function (req, res, next) {
     var sql = `select s.subjCode, subjName, reportNum
                 from lecture_subject ls, subject s, lecture l,reports r
                 where l.lecNum = ls.lecNum
@@ -207,7 +207,7 @@ router.post('/myReports', function (req, res, next) {
                 and ls.lecSubId = r.lecSubId
                 and week(date) = week(CURRENT_DATE)
                 and l.lecNum =?`
-    connection.query(sql, [req.body.lecNum], function (error, results) {
+    connection.query(sql, [req.params.lectNum], function (error, results) {
         if (error) console.log(error)
 
         if (results) {
