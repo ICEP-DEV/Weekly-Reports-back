@@ -7,9 +7,9 @@ const router = express.Router();
 
 
 //Summary reports for the whole department
-router.get('/hodReport', function (req, res, next) {
+router.get('/hodReport/:depCode', function (req, res, next) {
 
-    const params = req.body;
+   /// const params = req.body;
 
 
     connection.query(`SELECT DISTINCT r.reportNum, r.activities, r.assess, r.challRecomm, r.date as start_date, date(r.date + 5) as end_date, Upper(s.subjCode) as subjCode, d.deptName 
@@ -20,7 +20,7 @@ router.get('/hodReport', function (req, res, next) {
                         AND s.depCode = d.depCode
                         AND d.depCode = h.depCode 
                         AND week(CURRENT_DATE) = week(date)
-                        AND d.depCode = ?`,params.depCode, function (error, results){
+                        AND d.depCode = ?`,[req.params.depCode], function (error, results){
 
         if (error) 
         {
@@ -43,7 +43,7 @@ router.get('/hodReport', function (req, res, next) {
 }); 
 
 //Summary reports based on lecturer
-router.get('/lecturerID', function(req, res, next) {
+router.get('/lecturerID/:lecID', function(req, res, next) {
 
     const params = req.body;
 
@@ -55,7 +55,7 @@ router.get('/lecturerID', function(req, res, next) {
                         AND s.depCode = d.depCode
                         AND h.depCode = d.depCode 
                         AND week(date) = week(CURRENT_DATE)
-                        AND l.lecNum = ?`,params.lecNum, function (error, results) {
+                        AND l.lecNum = ?`,[req.params.lecID], function (error, results) {
 
         if (error) 
         {
@@ -69,14 +69,14 @@ router.get('/lecturerID', function(req, res, next) {
         else
         {
             console.log('Nothing was selected.')
-            console.log(params.lecNum)
+            console.log(req.params.deptCode)
         }
     
     });
 });
 
 //Summary reports based on module
-router.get('/subjectCode', function(req, res, next) {
+router.get('/subjectCode/:subCode', function(req, res, next) {
 
     const params = req.body;
 
@@ -88,7 +88,7 @@ router.get('/subjectCode', function(req, res, next) {
                         AND s.depCode = d.depCode
                         AND h.depCode = d.depCode 
                         AND week(date) = week(CURRENT_DATE)
-                        AND s.subjCode = ?`,params.subjCode, function (error, results) {
+                        AND s.subjCode = ?`,[req.params.subCode], function (error, results) {
 
         if (error) 
         {
@@ -111,14 +111,15 @@ console.log('So far so good!')
 module.exports = router
 
 //HOD Dashboard
-router.get('/hodDashboard', function (req, res, next) {
+router.get('/hodDashboard/:deptCode', function (req, res, next) {
 
     const params = req.body;
 
-    connection.query(`SELECT DISTINCT h.title, h.headName, h.headSurname, h.email, d.deptName
-                        FROM subject s, department d, hod h 
+    connection.query(`SELECT DISTINCT h.title, h.headName, h.headSurname, h.email
+                        FROM subject s, department d, hod h
                         WHERE d.depCode = s.depCode
-                        AND d.depCode = h.depCode`, function (error, results){
+                        AND d.depCode = h.depCode
+                        AND d.depCode = ?`,[req.params.deptCode], function (error, results){
 
         if (error) 
         {

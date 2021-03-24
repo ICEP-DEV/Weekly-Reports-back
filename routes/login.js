@@ -11,7 +11,7 @@ router.post('/hodLogin', function(req, res) {
     var Password1 = req.body.password;
     var hodNum = req.body.headNum;
 
-    connection.query(`SELECT h.headNum, h.password, h.depCode
+    connection.query(`SELECT h.headNum, h.password, h.depCode, h.title, h.headName, h.headSurname, h.email, deptName
                         FROM hod h, department d
                         WHERE h.depCode = d.depCode 
                         AND h.headNum = ?`, hodNum, function (error, results) {
