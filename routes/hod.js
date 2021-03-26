@@ -37,7 +37,7 @@ router.get('/hodReport/:depCode', function (req, res, next) {
         else
         {
             console.log('Nothing was selected.')
-            console.log(params.depCode)
+            res.send('Nothing was selected.')
         }
     });
 }); 
@@ -45,7 +45,7 @@ router.get('/hodReport/:depCode', function (req, res, next) {
 //Summary reports based on lecturer
 router.get('/lecturerID/:lecID', function(req, res, next) {
 
-    const params = req.body;
+    //const params = req.body;
 
     connection.query(`SELECT DISTINCT r.reportNum, r.activities, r.assess, r.challRecomm, r.date as start_date, date(r.date + 5) as end_date, s.subjCode, d.deptName 
                         FROM reports r, lecture_subject ls, subject s, lecture l, department d, hod h 
@@ -76,7 +76,7 @@ router.get('/lecturerID/:lecID', function(req, res, next) {
 });
 
 //Summary reports based on module
-router.get('/subjectCode/:subCode', function(req, res, next) {
+router.get('/subjectCode/:departCode', function(req, res, next) {
 
     const params = req.body;
 
@@ -88,7 +88,7 @@ router.get('/subjectCode/:subCode', function(req, res, next) {
                         AND s.depCode = d.depCode
                         AND h.depCode = d.depCode 
                         AND week(date) = week(CURRENT_DATE)
-                        AND s.subjCode = ?`,[req.params.subCode], function (error, results) {
+                        AND d.depCode = ?`,[req.params.departCode], function (error, results) {
 
         if (error) 
         {
@@ -108,8 +108,6 @@ router.get('/subjectCode/:subCode', function(req, res, next) {
     });
 });
 console.log('So far so good!')
-module.exports = router
-
 //HOD Dashboard
 router.get('/hodDashboard/:deptCode', function (req, res, next) {
 
