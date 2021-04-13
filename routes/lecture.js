@@ -146,13 +146,13 @@ router.post('/report', function (req, res, next) {
                 params.challRecomm = '';
             }
             
-            topicsCovered = (topicsCovered +'\n'+ params.topicsCovered).trim()
-            teachMode = (teachMode +'\n'+ params.teachMode).trim()
-            presentMode = (presentMode +'\n'+ params.presentMode).trim()
-            resource = (resource +'\n'+ params.resource).trim()
-            activities = (activities +'\n'+ params.activities).trim()
-            assess = (assess +'\n'+ params.assess).trim()
-            challRecomm = (challRecomm +'\n'+ params.challRecomm).trim()
+            topicsCovered = (topicsCovered +' | \n'+ params.topicsCovered).trim()
+            teachMode = (teachMode +' | \n'+ params.teachMode).trim()
+            presentMode = (presentMode +' | \n'+ params.presentMode).trim()
+            resource = (resource +' | \n'+ params.resource).trim()
+            activities = (activities +' | \n'+ params.activities).trim()
+            assess = (assess +' | \n'+ params.assess).trim()
+            challRecomm = (challRecomm +' | \n'+ params.challRecomm).trim()
 
     
             connection.query(`update reports
