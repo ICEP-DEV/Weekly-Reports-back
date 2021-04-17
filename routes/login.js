@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const connection = require('../config/config')
-
+const jwt = require('jsonwebtoken')
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
@@ -66,7 +66,7 @@ router.post('/lecturerLogin', function(req, res) {
             {
                 if(results[0].password == Password)
                 {
-                    console.log('Successfully logged in.');
+                    console.log('Successfully logged in.');           
                     console.log(results);
                     res.send(results);
                 }

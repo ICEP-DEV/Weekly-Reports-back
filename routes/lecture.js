@@ -146,13 +146,13 @@ router.post('/report', function (req, res, next) {
                 params.challRecomm = '';
             }
             
-            topicsCovered = (topicsCovered +'\n'+ params.topicsCovered).trim()
-            teachMode = (teachMode +'\n'+ params.teachMode).trim()
-            presentMode = (presentMode +'\n'+ params.presentMode).trim()
-            resource = (resource +'\n'+ params.resource).trim()
-            activities = (activities +'\n'+ params.activities).trim()
-            assess = (assess +'\n'+ params.assess).trim()
-            challRecomm = (challRecomm +'\n'+ params.challRecomm).trim()
+            topicsCovered = (topicsCovered +' | \n'+ params.topicsCovered).trim()
+            teachMode = (teachMode +' | \n'+ params.teachMode).trim()
+            presentMode = (presentMode +' | \n'+ params.presentMode).trim()
+            resource = (resource +' | \n'+ params.resource).trim()
+            activities = (activities +' | \n'+ params.activities).trim()
+            assess = (assess +' | \n'+ params.assess).trim()
+            challRecomm = (challRecomm +' | \n'+ params.challRecomm).trim()
 
     
             connection.query(`update reports
@@ -217,12 +217,15 @@ router.get('/myReports/:lectNum', function (req, res, next) {
     })
 })
 
-
 router.get('/reportDetails/:reportId', function (req, res, next) {
 
-    var sql = `select *
-                from reports
-                where reportNum =?`
+    var sql = `select l.lecNum, lecName, lecSurname, title,s.subjCode, subjName,
+                        numStudents,topicsCovered,teachMode,presentMode,resource,attendAvg,activities,assess,challRecomm
+                from lecture_subject ls, subject s, lecture l,reports r
+                where l.lecNum = ls.lecNum
+                and ls.subjCode = s.subjCode
+                and ls.lecSubId = r.lecSubId
+                and reportNum =?`
     connection.query(sql,[req.params.reportId], function(error,results){
         if(error) console.log(error)
 
