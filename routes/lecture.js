@@ -92,33 +92,27 @@ router.post('/report', function (req, res, next) {
                 console.log('yes it contain ',params.topicsCovered)
                 params.topicsCovered = '';
             }
-
             if(teachMode.includes(params.teachMode)){
                 console.log('yes it contain ',params.teachMode)
                 params.teachMode = '';
             }
-
             if(presentMode.includes(params.presentMode)){
                 console.log('yes it contain ',params.presentMode)
                 params.presentMode = '';
             }
-
             if(resource.includes(params.resource)){
                 console.log('yes it contain ',params.resource)
                 params.resource = '';
             }
-
             if(activities.includes(params.activities)){
                 console.log('yes it contain ',params.activities)
                 params.activities = '';
             }
-
             if(assess.includes(params.assess)){
                 console.log('yes it contain ',params.assess)
                 params.assess = '';
             }
             var replace;
-
             if(assess.includes('N/A') && params.assess != undefined){
                 //JSON.parse(JSON.stringify(assess).replace("N/A",""));
                 replace = assess.replace('N/A','',1);
@@ -132,7 +126,6 @@ router.post('/report', function (req, res, next) {
                 if(assess.includes('N/A')){
                     assess.replace('N/A','',1);
                 }
-
                 if(assess.includes(params.assess)){
                 console.log('yes it contain ',params.assess)
                 params.assess = '';
@@ -219,10 +212,11 @@ router.get('/myReports/:lectNum', function (req, res, next) {
 
 router.get('/reportDetails/:reportId', function (req, res, next) {
 
-    var sql = `select l.lecNum, lecName, lecSurname, title,s.subjCode, subjName,
-                        numStudents,topicsCovered,teachMode,presentMode,resource,attendAvg,activities,assess,challRecomm
-                from lecture_subject ls, subject s, lecture l,reports r
+    var sql = `select l.lecNum, lecName, lecSurname, title,s.subjCode, subjName, deptName,
+                    date_format(date, '%e-%m-%Y') as date,numStudents,topicsCovered,teachMode,presentMode,resource,attendAvg,activities,assess,challRecomm
+                from lecture_subject ls, subject s, lecture l,reports r, department d
                 where l.lecNum = ls.lecNum
+                and d.depCode = s.depCode
                 and ls.subjCode = s.subjCode
                 and ls.lecSubId = r.lecSubId
                 and reportNum =?`
