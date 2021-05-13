@@ -34,6 +34,7 @@ router.post('/hodLogin', function(req, res) {
                 else
                 {
                     console.log('Incorrect password entered.')
+                    return res.send('Incorrect password entered.')
                 }
             }
         }

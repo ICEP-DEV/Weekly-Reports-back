@@ -62,6 +62,20 @@ router.get('/getModules/:id', function (req, res, next) {
         else{console.log('not', req.params.id)}
     })
 })
+router.post('/assessment', function(res, req, next){
+    const params = req.body
+    console.log(req.body.studWrote)
+    connection.query(`INSERT INTO assssment(assessName,studWrote,attemptAvarage,studSubmit,reportNum)
+                        VALUES(?,?,?,?,?)`,[params.assessName,params.studWrote,params.attemptAvarage,params.studSubmit,params.reportNum], function(error, results){
+                                         if(error){console.log(error)}
+
+                                         console.log(results)
+                                         res.send(results)
+                                     })
+    }
+
+)
+
 
 router.post('/report', function (req, res, next) {
 
@@ -177,9 +191,6 @@ router.post('/report', function (req, res, next) {
             const year = date_ob.getFullYear(); /// year
              const fullDate = year + "-" + month + "-" + date;
             params.date = fullDate
-            
-           // res.send(params)
-            console.log('No report for this week')
             connection.query('insert into reports set ?',params,function(error,rows){
                 if(error) throw error
 
