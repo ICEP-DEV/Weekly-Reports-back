@@ -26,7 +26,7 @@ router.get('/lectureDashboard/:lecId', function (req, res, next) {
 
 router.get('/selectedModule/:id', function (req, res, next) {
 
-    connection.query(`select title,lecName,lecSurname, deptName, s.subjCode, subjName,ls.lecSubId
+    connection.query(`select title,lecName,lecSurname,l.lecNum, deptName, s.subjCode, subjName,ls.lecSubId
                         from lecture l, department d, subject s, lecture_subject ls
                         where l.lecNum = ls.lecNum
                         and ls.subjCode = s.subjCode
@@ -62,9 +62,8 @@ router.get('/getModules/:id', function (req, res, next) {
         else{console.log('not', req.params.id)}
     })
 })
-router.post('/assessment', function(res, req, next){
+router.post('/assessment', function(req, res, next){
     const params = req.body
-    console.log(req.body.studWrote)
     connection.query(`INSERT INTO assssment(assessName,studWrote,attemptAvarage,studSubmit,reportNum)
                         VALUES(?,?,?,?,?)`,[params.assessName,params.studWrote,params.attemptAvarage,params.studSubmit,params.reportNum], function(error, results){
                                          if(error){console.log(error)}
