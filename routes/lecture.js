@@ -200,7 +200,7 @@ router.post('/report', function (req, res, next) {
 });
 
 router.get('/myReports/:lectNum', function (req, res, next) {
-    var sql = `select s.subjCode, subjName, reportNum
+    var sql = `select s.subjCode, s.subjName, r.reportNum
                 from lecture_subject ls, subject s, lecture l,reports r
                 where l.lecNum = ls.lecNum
                 and ls.subjCode = s.subjCode
@@ -220,9 +220,13 @@ router.get('/myReports/:lectNum', function (req, res, next) {
 
 router.get('/reportDetails/:reportId', function (req, res, next) {
 
-    var sql = `select *
-                from reports
-                where reportNum =?`
+    var sql = `SELECT l.title, l.lecName, l.email, d.deptName, s.subjCode, s.subjName, r.reportNum, r.numStudents, r.date, r.topicsCovered, r.teachMode, r.presentMode, r.resource, r.attendAvg, r.activities, r.assess, r.challRecomm, r.lecSubId
+                FROM lecture_subject ls, subject s, lecture l,reports r, department d
+                WHERE l.lecNum = ls.lecNum
+                and ls.subjCode = s.subjCode
+                and ls.lecSubId = r.lecSubId
+                and s.depCode = d.depCode
+                AND r.reportNum =?`
     connection.query(sql,[req.params.reportId], function(error,results){
         if(error) console.log(error)
 

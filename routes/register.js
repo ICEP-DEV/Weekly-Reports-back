@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const connection = require('../config/config')
+const connection = require('../config/config');
+const jwt = require('jsonwebtoken');
 
 router.get('/department', function (req, res, next) {
     connection.query(`select * 
@@ -15,6 +16,7 @@ router.get('/department', function (req, res, next) {
 })
 
 router.get('/deptModules/:dpCode', function (req, res, next) {
+    
     connection.query(`select * 
                         from subject
                         where depCode =?`, req.params.dpCode, function (error, results) {
@@ -60,11 +62,11 @@ router.get('/informaticsModules', function (req, res, next) {
 //*************************    REGISTER LECTURE   **************************/
 
 router.post('/lecture', function (req, res, next) {
-    const params = req.body;
-
-    connection.query(`select * 
-                        from lecture 
-                        where lecNum =?`, [params.lecNum], function (error, results) {
+    //const params = req.body;
+    console.log(req.body);
+    const {lecNum, lecName, lecSurname, email, title, password, subjCode } = req.body;
+    
+    connection.query('SELECT * FROM lecture WHERE lecNum =?', [lecNum], function (error, results) {
             if (error) console.log(error)
 
             if (results.length > 0) {
@@ -73,18 +75,16 @@ router.post('/lecture', function (req, res, next) {
 
             }
             else {
-                connection.query(`INSERT INTO lecture(lecNum,lecName,lecSurname,email,title,password)
-                            VALUES(?,?,?,?,?,?)`, [params.lecNum, params.lecName, params.lecSurname, params.email, params.title, params.password], function (error, rows) {
+                connection.query('INSERT INTO lecture(lecNum,lecName,lecSurname,email,title,password) VALUES(?,?,?,?,?,?)', [lecNum, lecName, lecSurname, email, title, password], function (error, rows) {
                         if (error) console.log(error)
-
-                        for (var k = 0; k < params.subjCode.length; k++) {
-                            connection.query(`insert into lecture_subject(subjCode,lecNum)
-                                                VALUES(?,?)`, [params.subjCode[k], params.lecNum], function (err) {
-                                })
+                        for (var k = 0; k < subjCode.length; k++) {
+                            connection.query(
+                                'INSERT INTO lecture_subject(subjCode,lecNum) VALUES(?,?)', [subjCode[k], lecNum], function (err) {
+                                });
                         }
 
-                        console.log(rows)
-                        return res.send(rows)
+                        console.log(rows);
+                        return res.send(rows);
 
                     })
             }
@@ -98,11 +98,11 @@ router.post('/lecture', function (req, res, next) {
 //*************************    REGISTER HOD   **************************/
 
 router.post('/hod', function (req, res, next) {
-    const params = req.body;
-
-    connection.query(`select * 
-                        from hod 
-                        where headNum =?`, [params.headNum], function (error, results) {
+    //const params = req.body;
+    console.log(req.body);
+    const {headNum, headName, headSurname, email, title, password, subjCode, depCode } = req.body;
+    
+    connection.query('SELECT * FROM hod WHERE headNum =?', [headNum], function (error, results) {
             if (error) console.log(error)
 
             if (results.length > 0) {
@@ -111,13 +111,11 @@ router.post('/hod', function (req, res, next) {
 
             }
             else {
-                console.log(params.headNum, params.headName, params.headSurname, params.email, params.title, params.password,params.depCode)
+                console.log(headNum, headName, headSurname, email, title, password, depCode)
                 console.log('not yet registered')
-                console.log(params.subjCode)
-                connection.query(`INSERT INTO hod(headNum,headName,headSurname,email,title,password,depCode)
-                            VALUES(?,?,?,?,?,?,?)`, [params.headNum, params.headName, params.headSurname, params.email, params.title, params.password,params.depCode], function (error, rows) {
+                console.log(subjCode)
+                connection.query('INSERT INTO hod(headNum, headName, headSurname, email, title, password, depCode) VALUES(?,?,?,?,?,?,?)', [headNum, headName, headSurname, email, title, password, depCode], function (error, rows) {
                         if (error) console.log(error)
-
                         console.log(rows)
                         return res.send(rows)
 
